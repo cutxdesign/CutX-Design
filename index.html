@@ -6,455 +6,129 @@
   <title>CuX Design — CNC Laser Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --card: #161616;
-      --border: #2a2a2a;
-      --accent: #ff4d00;
-      --text: #f0ede8;
-      --muted: #666;
-      --green: #25D366;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,77,0,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,77,0,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    header {
-      z-index: 10;
-      padding: 0 2rem;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      position: relative;
-    }
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 2px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo-icon {
-      width: 32px; height: 32px;
-      border: 2px solid var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-    }
-    .logo-icon::before {
-      content: '';
-      position: absolute;
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50% { opacity:0.6; transform:scale(1.3); }
-    }
-    .logo span { color: var(--accent); }
-    nav { display: flex; gap: 1.5rem; align-items: center; }
-    .nav-link {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-link:hover { color: var(--accent); }
-    .upload-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .upload-btn:hover { background: #e04400; }
-    .laser-line {
-      position: absolute;
-      bottom: 0; left: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      width: 200px;
-      animation: laserSweep 3s ease-in-out infinite;
-    }
-    @keyframes laserSweep {
-      0% { left:-200px; opacity:0; }
-      20% { opacity:1; }
-      80% { opacity:1; }
-      100% { left:100%; opacity:0; }
-    }
-    .hero {
-      position: relative; z-index: 1;
-      padding: 5rem 2rem 3rem;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .hero-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .hero-tag::before {
-      content: ''; display: inline-block;
-      width: 20px; height: 1px; background: var(--accent);
-    }
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: 2px;
-      margin-bottom: 1.5rem;
-    }
-    h1 em { font-style: normal; color: var(--accent); }
-    .hero-sub {
-      color: var(--muted); font-size: 1rem;
-      max-width: 420px; line-height: 1.6; font-weight: 300;
-    }
-    .stats {
-      display: flex; gap: 3rem;
-      margin-top: 3rem; padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .stat-item { display: flex; flex-direction: column; gap: 2px; }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem; color: var(--accent); letter-spacing: 1px;
-    }
-    .stat-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 1px;
-    }
-    .controls {
-      position: relative; z-index: 1;
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 2rem 2rem;
-      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
-    }
-    .filter-btn {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--muted); padding: 7px 14px; cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--accent); color: var(--accent);
-      background: rgba(255,77,0,0.07);
-    }
-    .search-wrap { margin-left: auto; position: relative; }
-    .search-input {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); padding: 7px 14px 7px 36px;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
-      width: 220px; outline: none; transition: border-color 0.2s;
-    }
-    .search-input:focus { border-color: var(--accent); }
-    .search-input::placeholder { color: var(--muted); }
-    .search-icon {
-      position: absolute; left: 10px; top: 50%;
-      transform: translateY(-50%); color: var(--muted); font-size: 0.85rem;
-    }
-    .grid {
-      position: relative; z-index: 1;
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 2rem 5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5px;
-    }
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      overflow: hidden;
-      transition: border-color 0.25s, transform 0.25s;
-      animation: fadeUp 0.5s ease both;
-    }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(20px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-    .card:hover { border-color: var(--accent); transform: translateY(-3px); z-index:2; position:relative; }
-    .card:hover .card-overlay { opacity: 1; }
-    .card:hover .thumb-img { transform: scale(1.05); }
-    .thumb-wrap {
-      position: relative; aspect-ratio: 4/3;
-      overflow: hidden; background: #0d0d0d;
-    }
-    .thumb-img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s ease; display: block;
-    }
-    .thumb-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
-    }
-    .thumb-placeholder svg { width: 64px; height: 64px; opacity: 0.15; }
-    .card-overlay {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .preview-btn {
-      background: var(--accent); color: #fff; border: none;
-      padding: 10px 22px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer;
-    }
-    .card-badge {
-      position: absolute; top: 10px; left: 10px;
-      background: var(--accent); color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 1px;
-      padding: 3px 8px; text-transform: uppercase;
-    }
-    .card-body { padding: 1rem 1rem 0.6rem; }
-    .card-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 4px;
-    }
-    .card-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted); letter-spacing: 0.5px;
-    }
-    .card-price-row {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 8px; padding-bottom: 0.8rem;
-    }
-    .card-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; color: var(--accent); letter-spacing: 1px;
-    }
-    .format-tags { display: flex; gap: 4px; }
-    .ftag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem; letter-spacing: 0.5px;
-      border: 1px solid var(--border); color: var(--muted);
-      padding: 2px 5px;
-    }
-    .ftag.has { border-color: rgba(255,77,0,0.5); color: var(--accent); }
-    .wa-btn {
-      width: 100%; padding: 12px;
-      background: var(--green);
-      border: none; color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      transition: background 0.2s;
-    }
-    .wa-btn:hover { background: #1ebe5d; }
-    .modal-bg {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.92); z-index: 100;
-      align-items: center; justify-content: center;
-      padding: 2rem; backdrop-filter: blur(6px);
-    }
-    .modal-bg.open { display: flex; }
-    .modal {
-      background: var(--card); border: 1px solid var(--border);
-      max-width: 800px; width: 100%; max-height: 90vh;
-      overflow-y: auto; position: relative;
-      animation: modalIn 0.25s ease;
-    }
-    @keyframes modalIn {
-      from { opacity:0; transform:scale(0.95); }
-      to { opacity:1; transform:scale(1); }
-    }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--muted); width: 32px; height: 32px;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 10; transition: all 0.2s;
-    }
-    .modal-close:hover { border-color: var(--accent); color: var(--accent); }
-    .modal-img {
-      width: 100%; max-height: 400px; object-fit: contain;
-      background: #0d0d0d; display: block;
-    }
-    .modal-body { padding: 1.5rem; }
-    .modal-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem; letter-spacing: 2px; margin-bottom: 4px;
-    }
-    .modal-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted);
-      letter-spacing: 1px; margin-bottom: 0.8rem; text-transform: uppercase;
-    }
-    .modal-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem; color: var(--accent);
-      letter-spacing: 2px; margin-bottom: 0.8rem;
-    }
-    .modal-formats { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
-    .mchip {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; padding: 4px 10px; letter-spacing: 1px;
-      border: 1px solid var(--accent); color: var(--accent);
-    }
-    .mchip.off { border-color: var(--border); color: var(--muted); }
-    .modal-desc {
-      color: var(--muted); font-size: 0.9rem;
-      line-height: 1.6; margin-bottom: 1.5rem; font-weight: 300;
-    }
-    .modal-wa-btn {
-      width: 100%; padding: 14px;
-      background: var(--green); border: none; color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      transition: background 0.2s;
-    }
-    .modal-wa-btn:hover { background: #1ebe5d; }
-    .upload-panel {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.92); z-index: 100;
-      align-items: center; justify-content: center;
-      padding: 2rem; backdrop-filter: blur(6px);
-    }
-    .upload-panel.open { display: flex; }
-    .upload-box {
-      background: var(--card); border: 1px solid var(--border);
-      padding: 2.5rem; max-width: 560px; width: 100%; position: relative;
-      max-height: 90vh; overflow-y: auto;
-    }
-    .upload-box h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 1.5rem;
-    }
-    .field-group { margin-bottom: 1rem; }
-    .field-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted);
-      letter-spacing: 1px; text-transform: uppercase;
-      display: block; margin-bottom: 6px;
-    }
-    .field-input, .field-select, .field-textarea {
-      width: 100%; background: var(--surface);
-      border: 1px solid var(--border); color: var(--text);
-      padding: 9px 12px; font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem; outline: none; transition: border-color 0.2s;
-    }
-    .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--accent); }
-    .field-select option { background: var(--card); }
-    .field-textarea { height: 70px; resize: vertical; }
-    .drop-zone {
-      border: 2px dashed var(--border); padding: 1.5rem;
-      text-align: center; margin: 1rem 0;
-      cursor: pointer; transition: border-color 0.2s, background 0.2s;
-    }
-    .drop-zone:hover, .drop-zone.dragover {
-      border-color: var(--accent); background: rgba(255,77,0,0.04);
-    }
-    .drop-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: var(--muted); letter-spacing: 1px;
-    }
-    .drop-icon { font-size: 1.8rem; margin-bottom: 0.4rem; opacity: 0.4; }
-    .form-actions { display: flex; gap: 10px; margin-top: 1.5rem; }
-    .btn-primary {
-      background: var(--accent); color: #fff; border: none;
-      padding: 11px 28px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; flex: 1; transition: background 0.2s;
-    }
-    .btn-primary:hover { background: #e04400; }
-    .btn-cancel {
-      background: transparent; border: 1px solid var(--border);
-      color: var(--muted); padding: 11px 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .btn-cancel:hover { border-color: var(--muted); color: var(--text); }
-    .empty-state {
-      grid-column: 1/-1; text-align: center;
-      padding: 5rem 2rem; color: var(--muted);
-    }
-    .empty-state p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; letter-spacing: 1px;
-    }
-    footer {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2rem; text-align: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted); letter-spacing: 1px;
-    }
-    footer span { color: var(--accent); }
-    .wa-float {
-      position: fixed; bottom: 24px; right: 24px; z-index: 50;
-      background: var(--green); color: #fff;
-      width: 56px; height: 56px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-      text-decoration: none; transition: transform 0.2s;
-    }
-    .wa-float:hover { transform: scale(1.1); }
-    @media(max-width:640px) {
-      nav .nav-link { display: none; }
-      .stats { gap: 1.5rem; }
-      .grid { grid-template-columns: 1fr; gap: 1px; }
-      .search-wrap { margin-left: 0; width: 100%; }
-      .search-input { width: 100%; }
-      .controls { flex-direction: column; align-items: flex-start; }
-    }
+    :root{--bg:#0a0a0a;--surface:#111;--card:#161616;--border:#2a2a2a;--accent:#ff4d00;--text:#f0ede8;--muted:#666;--green:#25D366;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,77,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,77,0,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+    header{z-index:10;padding:0 2rem;height:70px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.97);backdrop-filter:blur(10px);position:sticky;top:0;position:relative;}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;display:flex;align-items:center;gap:10px;}
+    .logo-icon{width:32px;height:32px;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;position:relative;}
+    .logo-icon::before{content:'';position:absolute;width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent),0 0 20px var(--accent);animation:pulse 1.5s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(1.3);}}
+    .logo span{color:var(--accent);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    .nav-link{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;}
+    .nav-link:hover{color:var(--accent);}
+    .upload-btn{background:var(--accent);color:#fff;border:none;padding:8px 18px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+    .upload-btn:hover{background:#e04400;}
+    .laser-line{position:absolute;bottom:0;left:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);width:200px;animation:laserSweep 3s ease-in-out infinite;}
+    @keyframes laserSweep{0%{left:-200px;opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{left:100%;opacity:0;}}
+    .hero{position:relative;z-index:1;padding:5rem 2rem 3rem;max-width:1200px;margin:0 auto;}
+    .hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+    .hero-tag::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent);}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,6rem);line-height:0.95;letter-spacing:2px;margin-bottom:1.5rem;}
+    h1 em{font-style:normal;color:var(--accent);}
+    .hero-sub{color:var(--muted);font-size:1rem;max-width:420px;line-height:1.6;font-weight:300;}
+    .stats{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);}
+    .stat-item{display:flex;flex-direction:column;gap:2px;}
+    .stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);letter-spacing:1px;}
+    .stat-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+    .controls{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 2rem 2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;}
+    .filter-btn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 14px;cursor:pointer;transition:all 0.2s;}
+    .filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(255,77,0,0.07);}
+    .search-wrap{margin-left:auto;position:relative;}
+    .search-input{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 14px 7px 36px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;width:220px;outline:none;transition:border-color 0.2s;}
+    .search-input:focus{border-color:var(--accent);}
+    .search-input::placeholder{color:var(--muted);}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;}
+    .grid{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 2rem 5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5px;}
+    .card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color 0.25s,transform 0.25s;animation:fadeUp 0.5s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    .card:hover{border-color:var(--accent);transform:translateY(-3px);z-index:2;position:relative;}
+    .card:hover .card-overlay{opacity:1;}
+    .card:hover .thumb-img{transform:scale(1.05);}
+    .thumb-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:#0d0d0d;}
+    .thumb-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease;display:block;}
+    .thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);}
+    .thumb-placeholder svg{width:64px;height:64px;opacity:0.15;}
+    .card-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;}
+    .preview-btn{background:var(--accent);color:#fff;border:none;padding:10px 22px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+    .card-badge{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:3px 8px;text-transform:uppercase;}
+    .card-body{padding:1rem 1rem 0.6rem;}
+    .card-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;margin-bottom:4px;}
+    .card-meta{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.5px;}
+    .card-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-bottom:0.8rem;}
+    .card-price{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent);letter-spacing:1px;}
+    .format-tags{display:flex;gap:4px;}
+    .ftag{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.5px;border:1px solid var(--border);color:var(--muted);padding:2px 5px;}
+    .ftag.has{border-color:rgba(255,77,0,0.5);color:var(--accent);}
+    .wa-btn{width:100%;padding:12px;background:var(--green);border:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
+    .wa-btn:hover{background:#1ebe5d;}
+    /* Edit/Delete row */
+    .card-actions{display:flex;gap:1px;}
+    .edit-btn,.del-btn{flex:1;padding:8px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;}
+    .edit-btn{background:#1c1c1c;color:var(--muted);}
+    .edit-btn:hover{background:#2a2a2a;color:var(--text);}
+    .del-btn{background:#1a0808;color:#ff4444;}
+    .del-btn:hover{background:#ff4444;color:#fff;}
+    /* MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:100;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(6px);}
+    .modal-bg.open{display:flex;}
+    .modal{background:var(--card);border:1px solid var(--border);max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn 0.25s ease;}
+    @keyframes modalIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+    .modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.2s;}
+    .modal-close:hover{border-color:var(--accent);color:var(--accent);}
+    .modal-img{width:100%;max-height:400px;object-fit:contain;background:#0d0d0d;display:block;}
+    .modal-body{padding:1.5rem;}
+    .modal-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:4px;}
+    .modal-meta{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:1px;margin-bottom:0.8rem;text-transform:uppercase;}
+    .modal-price{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent);letter-spacing:2px;margin-bottom:0.8rem;}
+    .modal-formats{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;}
+    .mchip{font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:4px 10px;letter-spacing:1px;border:1px solid var(--accent);color:var(--accent);}
+    .mchip.off{border-color:var(--border);color:var(--muted);}
+    .modal-desc{color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem;font-weight:300;}
+    .modal-wa-btn{width:100%;padding:14px;background:var(--green);border:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background 0.2s;}
+    .modal-wa-btn:hover{background:#1ebe5d;}
+    .modal-edit-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+    .modal-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .modal-del-btn{width:100%;padding:11px;background:transparent;border:1px solid #ff444433;color:#ff4444;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all 0.2s;}
+    .modal-del-btn:hover{background:#ff4444;color:#fff;}
+    /* UPLOAD / EDIT PANEL */
+    .upload-panel{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:100;align-items:center;justify-content:center;padding:2rem;backdrop-filter:blur(6px);}
+    .upload-panel.open{display:flex;}
+    .upload-box{background:var(--card);border:1px solid var(--border);padding:2.5rem;max-width:560px;width:100%;position:relative;max-height:90vh;overflow-y:auto;}
+    .upload-box h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1.5rem;}
+    .field-group{margin-bottom:1rem;}
+    .field-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;}
+    .field-input,.field-select,.field-textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+    .field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--accent);}
+    .field-select option{background:var(--card);}
+    .field-textarea{height:70px;resize:vertical;}
+    .drop-zone{border:2px dashed var(--border);padding:1.5rem;text-align:center;margin:1rem 0;cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(255,77,0,0.04);}
+    .drop-text{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:1px;}
+    .drop-icon{font-size:1.8rem;margin-bottom:0.4rem;opacity:0.4;}
+    .form-actions{display:flex;gap:10px;margin-top:1.5rem;}
+    .btn-primary{background:var(--accent);color:#fff;border:none;padding:11px 28px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;flex:1;transition:background 0.2s;}
+    .btn-primary:hover{background:#e04400;}
+    .btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 20px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+    .btn-cancel:hover{border-color:var(--muted);color:var(--text);}
+    .empty-state{grid-column:1/-1;text-align:center;padding:5rem 2rem;color:var(--muted);}
+    .empty-state p{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:1px;}
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:1px;}
+    footer span{color:var(--accent);}
+    .wa-float{position:fixed;bottom:24px;right:24px;z-index:50;background:var(--green);color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.2s;}
+    .wa-float:hover{transform:scale(1.1);}
+    @media(max-width:640px){nav .nav-link{display:none;}.stats{gap:1.5rem;}.grid{grid-template-columns:1fr;gap:1px;}.search-wrap{margin-left:0;width:100%;}.search-input{width:100%;}.controls{flex-direction:column;align-items:flex-start;}}
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-icon"></div>
-    CuX<span>DESIGN</span>
-  </div>
+  <div class="logo"><div class="logo-icon"></div>CuX<span>DESIGN</span></div>
   <nav>
     <a href="https://wa.me/8801315498058" target="_blank" class="nav-link" style="color:var(--green)">💬 WhatsApp</a>
-    <button class="upload-btn" onclick="openUpload()">+ Add Design</button>
+    <button class="upload-btn" onclick="openUpload(null)">+ Add Design</button>
   </nav>
   <div class="laser-line"></div>
 </header>
@@ -464,18 +138,9 @@
   <h1>PRECISION<br><em>DESIGN</em><br>PORTFOLIO</h1>
   <p class="hero-sub">Professional CNC laser cutting designs। AI, DXF ও DWG format এ পাওয়া যাবে। Order করতে WhatsApp এ message করুন।</p>
   <div class="stats">
-    <div class="stat-item">
-      <span class="stat-num" id="totalCount">0</span>
-      <span class="stat-label">Total Designs</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">3</span>
-      <span class="stat-label">File Formats</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" style="color:var(--green)">WA</span>
-      <span class="stat-label">Order Via WhatsApp</span>
-    </div>
+    <div class="stat-item"><span class="stat-num" id="totalCount">0</span><span class="stat-label">Total Designs</span></div>
+    <div class="stat-item"><span class="stat-num">3</span><span class="stat-label">File Formats</span></div>
+    <div class="stat-item"><span class="stat-num" style="color:var(--green)">WA</span><span class="stat-label">Order Via WhatsApp</span></div>
   </div>
 </section>
 
@@ -488,7 +153,7 @@
   <button class="filter-btn" onclick="filterCards('industrial',this)">Industrial</button>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input class="search-input" type="text" placeholder="Search designs..." oninput="searchCards(this.value)" />
+    <input class="search-input" type="text" placeholder="Search designs..." oninput="searchCards(this.value)"/>
   </div>
 </div>
 
@@ -498,7 +163,7 @@
 <div class="modal-bg" id="modalBg" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect()">✕</button>
-    <img class="modal-img" id="modalImg" src="" alt="" />
+    <img class="modal-img" id="modalImg" src="" alt=""/>
     <div class="modal-body">
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-meta" id="modalMeta"></div>
@@ -506,19 +171,21 @@
       <div class="modal-formats" id="modalFormats"></div>
       <div class="modal-desc" id="modalDesc"></div>
       <button class="modal-wa-btn" id="modalWaBtn">💬 &nbsp; WhatsApp এ Order করুন</button>
+      <button class="modal-edit-btn" id="modalEditBtn">✏️ &nbsp; Edit Design</button>
+      <button class="modal-del-btn" id="modalDelBtn">🗑 &nbsp; Delete Design</button>
     </div>
   </div>
 </div>
 
-<!-- UPLOAD PANEL -->
+<!-- UPLOAD / EDIT PANEL -->
 <div class="upload-panel" id="uploadPanel" onclick="closeUploadOutside(event)">
   <div class="upload-box">
     <button class="modal-close" onclick="closeUpload()">✕</button>
-    <h2>ADD NEW <span style="color:var(--accent)">DESIGN</span></h2>
-
+    <h2 id="panelTitle">ADD NEW <span style="color:var(--accent)">DESIGN</span></h2>
+    <input type="hidden" id="editId" value=""/>
     <div class="field-group">
       <label class="field-label">Design Name *</label>
-      <input class="field-input" id="inp-name" type="text" placeholder="e.g. Floral Mandala v2" />
+      <input class="field-input" id="inp-name" type="text" placeholder="e.g. Floral Mandala v2"/>
     </div>
     <div class="field-group">
       <label class="field-label">Category</label>
@@ -532,106 +199,68 @@
     </div>
     <div class="field-group">
       <label class="field-label">Price (টাকা) *</label>
-      <input class="field-input" id="inp-price" type="number" placeholder="e.g. 500" />
+      <input class="field-input" id="inp-price" type="number" placeholder="e.g. 500"/>
     </div>
     <div class="field-group">
       <label class="field-label">Description</label>
       <textarea class="field-textarea" id="inp-desc" placeholder="Short description..."></textarea>
     </div>
-
     <label class="field-label">Thumbnail Image</label>
-    <div class="drop-zone" id="dropZone"
-      onclick="document.getElementById('thumbFile').click()"
-      ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('thumbFile').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
       <div class="drop-icon">🖼</div>
       <div class="drop-text" id="dropText">Click or drag & drop thumbnail image</div>
     </div>
-    <input type="file" id="thumbFile" accept="image/*" style="display:none" onchange="previewThumb(this)" />
-
+    <input type="file" id="thumbFile" accept="image/*" style="display:none" onchange="previewThumb(this)"/>
     <div class="field-group" style="margin-top:1rem">
       <label class="field-label">Available Formats</label>
       <div style="display:flex;gap:16px;margin-top:8px;">
-        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;">
-          <input type="checkbox" id="chk-ai" style="accent-color:var(--accent);width:16px;height:16px;"> AI
-        </label>
-        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;">
-          <input type="checkbox" id="chk-dxf" style="accent-color:var(--accent);width:16px;height:16px;"> DXF
-        </label>
-        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;">
-          <input type="checkbox" id="chk-dwg" style="accent-color:var(--accent);width:16px;height:16px;"> DWG
-        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;"><input type="checkbox" id="chk-ai" style="accent-color:var(--accent);width:16px;height:16px;"> AI</label>
+        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;"><input type="checkbox" id="chk-dxf" style="accent-color:var(--accent);width:16px;height:16px;"> DXF</label>
+        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);cursor:pointer;"><input type="checkbox" id="chk-dwg" style="accent-color:var(--accent);width:16px;height:16px;"> DWG</label>
       </div>
     </div>
-
     <div class="form-actions">
       <button class="btn-cancel" onclick="closeUpload()">Cancel</button>
-      <button class="btn-primary" onclick="addDesign()">+ Add Design</button>
+      <button class="btn-primary" id="submitBtn" onclick="saveDesign()">+ Add Design</button>
     </div>
   </div>
 </div>
 
 <a class="wa-float" href="https://wa.me/8801315498058" target="_blank" title="WhatsApp">💬</a>
 
-<footer>
-  CuX DESIGN &nbsp;|&nbsp; <span>AI · DXF · DWG</span> &nbsp;|&nbsp; WhatsApp: 01315498058
-</footer>
+<footer>CuX DESIGN &nbsp;|&nbsp; <span>AI · DXF · DWG</span> &nbsp;|&nbsp; WhatsApp: 01315498058</footer>
 
 <script>
-  const WA = '8801315498058';
-  let designs = JSON.parse(localStorage.getItem('cuxDesigns') || '[]');
-  let curFilter = 'all', curSearch = '', thumbBase64 = '';
+  const WA='8801315498058';
+  let designs=JSON.parse(localStorage.getItem('cuxDesigns')||'[]');
+  let curFilter='all',curSearch='',thumbBase64='',currentEditId=null;
 
-  function save() {
-    localStorage.setItem('cuxDesigns', JSON.stringify(designs));
-    document.getElementById('totalCount').textContent = designs.length;
-  }
+  function save(){localStorage.setItem('cuxDesigns',JSON.stringify(designs));document.getElementById('totalCount').textContent=designs.length;}
 
-  function waLink(name, price, fmts) {
-    const msg = `হ্যালো CuX Design!\n\nআমি এই design টি কিনতে চাই:\n\n*Design:* ${name}\n*Price:* ৳${price}\n*Format:* ${fmts.join(', ')}\n\nPlease bKash/Nagad number দিন।`;
+  function waLink(name,price,fmts){
+    const msg=`হ্যালো CuX Design!\n\nআমি এই design টি কিনতে চাই:\n\n*Design:* ${name}\n*Price:* ৳${price}\n*Format:* ${fmts.join(', ')}\n\nPlease bKash/Nagad number দিন।`;
     return `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
   }
 
-  function getFmts(d) {
-    const f = [];
-    if (d.hasAI) f.push('AI');
-    if (d.hasDXF) f.push('DXF');
-    if (d.hasDWG) f.push('DWG');
-    return f;
-  }
+  function getFmts(d){const f=[];if(d.hasAI)f.push('AI');if(d.hasDXF)f.push('DXF');if(d.hasDWG)f.push('DWG');return f;}
 
-  function render() {
-    const grid = document.getElementById('designGrid');
-    const list = designs.filter(d =>
-      (curFilter === 'all' || d.category === curFilter) &&
-      d.name.toLowerCase().includes(curSearch.toLowerCase())
-    );
-
-    if (!list.length) {
-      grid.innerHTML = `<div class="empty-state">
-        <div style="font-size:3rem;margin-bottom:1rem;opacity:0.2">⬡</div>
-        <p>${designs.length === 0
-          ? 'No designs yet — click <strong style="color:var(--accent)">+ Add Design</strong> to add your first design'
-          : 'No designs match your filter.'}</p>
-      </div>`;
+  function render(){
+    const grid=document.getElementById('designGrid');
+    const list=designs.filter(d=>(curFilter==='all'||d.category===curFilter)&&d.name.toLowerCase().includes(curSearch.toLowerCase()));
+    if(!list.length){
+      grid.innerHTML=`<div class="empty-state"><div style="font-size:3rem;margin-bottom:1rem;opacity:0.2">⬡</div><p>${designs.length===0?'No designs yet — click <strong style="color:var(--accent)">+ Add Design</strong> to add your first design':'No designs match your filter.'}</p></div>`;
       return;
     }
-
-    grid.innerHTML = list.map((d, i) => {
-      const fmts = getFmts(d);
-      const link = waLink(d.name, d.price, fmts);
-      const tags = ['AI','DXF','DWG'].map(f =>
-        `<span class="ftag ${fmts.includes(f)?'has':''}">${f}</span>`
-      ).join('');
-      const thumb = d.thumb
-        ? `<img class="thumb-img" src="${d.thumb}" alt="${d.name}">`
-        : `<div class="thumb-placeholder"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="8" width="48" height="48" rx="2"/><path d="M8 44L20 28L32 38L44 24L56 36"/><circle cx="44" cy="20" r="4"/></svg></div>`;
+    grid.innerHTML=list.map((d,i)=>{
+      const fmts=getFmts(d);
+      const link=waLink(d.name,d.price,fmts);
+      const tags=['AI','DXF','DWG'].map(f=>`<span class="ftag ${fmts.includes(f)?'has':''}">${f}</span>`).join('');
+      const thumb=d.thumb?`<img class="thumb-img" src="${d.thumb}" alt="${d.name}">`:`<div class="thumb-placeholder"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="8" width="48" height="48" rx="2"/><path d="M8 44L20 28L32 38L44 24L56 36"/><circle cx="44" cy="20" r="4"/></svg></div>`;
       return `
       <div class="card" style="animation-delay:${i*0.06}s">
         <div class="thumb-wrap">
           ${thumb}
-          <div class="card-overlay">
-            <button class="preview-btn" onclick="openModal(${d.id})">View Details</button>
-          </div>
+          <div class="card-overlay"><button class="preview-btn" onclick="openModal(${d.id})">View Details</button></div>
           <div class="card-badge">${d.category}</div>
         </div>
         <div class="card-body">
@@ -643,84 +272,107 @@
           </div>
         </div>
         <button class="wa-btn" onclick="window.open('${link}','_blank')">💬 WhatsApp এ Order করুন</button>
+        <div class="card-actions">
+          <button class="edit-btn" onclick="openUpload(${d.id})">✏️ Edit</button>
+          <button class="del-btn" onclick="deleteDesign(${d.id})">🗑 Delete</button>
+        </div>
       </div>`;
     }).join('');
   }
 
-  function filterCards(cat, btn) {
-    curFilter = cat;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render();
-  }
+  function filterCards(cat,btn){curFilter=cat;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+  function searchCards(v){curSearch=v;render();}
 
-  function searchCards(v) { curSearch = v; render(); }
-
-  function openModal(id) {
-    const d = designs.find(x => x.id === id);
-    if (!d) return;
-    const fmts = getFmts(d);
-    document.getElementById('modalImg').src = d.thumb || '';
-    document.getElementById('modalImg').style.display = d.thumb ? 'block' : 'none';
-    document.getElementById('modalTitle').textContent = d.name;
-    document.getElementById('modalMeta').textContent = `${d.category} · ${d.date}`;
-    document.getElementById('modalPrice').textContent = `৳ ${d.price}`;
-    document.getElementById('modalDesc').textContent = d.desc || 'No description.';
-    document.getElementById('modalFormats').innerHTML =
-      ['AI','DXF','DWG'].map(f => `<span class="mchip ${fmts.includes(f)?'':'off'}">${f}</span>`).join('');
-    document.getElementById('modalWaBtn').onclick = () =>
-      window.open(waLink(d.name, d.price, fmts), '_blank');
+  function openModal(id){
+    const d=designs.find(x=>x.id===id);if(!d)return;
+    const fmts=getFmts(d);
+    document.getElementById('modalImg').src=d.thumb||'';
+    document.getElementById('modalImg').style.display=d.thumb?'block':'none';
+    document.getElementById('modalTitle').textContent=d.name;
+    document.getElementById('modalMeta').textContent=`${d.category} · ${d.date}`;
+    document.getElementById('modalPrice').textContent=`৳ ${d.price}`;
+    document.getElementById('modalDesc').textContent=d.desc||'No description.';
+    document.getElementById('modalFormats').innerHTML=['AI','DXF','DWG'].map(f=>`<span class="mchip ${fmts.includes(f)?'':'off'}">${f}</span>`).join('');
+    document.getElementById('modalWaBtn').onclick=()=>window.open(waLink(d.name,d.price,fmts),'_blank');
+    document.getElementById('modalEditBtn').onclick=()=>{closeModalDirect();openUpload(id);};
+    document.getElementById('modalDelBtn').onclick=()=>deleteDesign(id);
     document.getElementById('modalBg').classList.add('open');
   }
 
-  function closeModal(e) { if (e.target.id==='modalBg') closeModalDirect(); }
-  function closeModalDirect() { document.getElementById('modalBg').classList.remove('open'); }
-  function openUpload() { document.getElementById('uploadPanel').classList.add('open'); }
-  function closeUpload() {
+  function deleteDesign(id){
+    if(!confirm('এই design টা delete করবেন?'))return;
+    designs=designs.filter(x=>x.id!==id);
+    save();render();closeModalDirect();
+  }
+
+  function closeModal(e){if(e.target.id==='modalBg')closeModalDirect();}
+  function closeModalDirect(){document.getElementById('modalBg').classList.remove('open');}
+
+  function openUpload(editId){
+    currentEditId=editId;
+    if(editId){
+      const d=designs.find(x=>x.id===editId);if(!d)return;
+      document.getElementById('panelTitle').innerHTML='EDIT <span style="color:var(--accent)">DESIGN</span>';
+      document.getElementById('submitBtn').textContent='✓ Save Changes';
+      document.getElementById('inp-name').value=d.name;
+      document.getElementById('inp-cat').value=d.category;
+      document.getElementById('inp-price').value=d.price;
+      document.getElementById('inp-desc').value=d.desc||'';
+      document.getElementById('chk-ai').checked=d.hasAI;
+      document.getElementById('chk-dxf').checked=d.hasDXF;
+      document.getElementById('chk-dwg').checked=d.hasDWG;
+      thumbBase64=d.thumb||'';
+      document.getElementById('dropText').textContent=d.thumb?'✓ Current thumbnail (change if needed)':'Click or drag & drop thumbnail image';
+    } else {
+      document.getElementById('panelTitle').innerHTML='ADD NEW <span style="color:var(--accent)">DESIGN</span>';
+      document.getElementById('submitBtn').textContent='+ Add Design';
+    }
+    document.getElementById('uploadPanel').classList.add('open');
+  }
+
+  function closeUpload(){
     document.getElementById('uploadPanel').classList.remove('open');
-    ['inp-name','inp-price','inp-desc'].forEach(id => document.getElementById(id).value='');
-    ['chk-ai','chk-dxf','chk-dwg'].forEach(id => document.getElementById(id).checked=false);
-    thumbBase64='';
+    ['inp-name','inp-price','inp-desc'].forEach(id=>document.getElementById(id).value='');
+    ['chk-ai','chk-dxf','chk-dwg'].forEach(id=>document.getElementById(id).checked=false);
+    thumbBase64='';currentEditId=null;
     document.getElementById('dropText').textContent='Click or drag & drop thumbnail image';
   }
-  function closeUploadOutside(e) { if (e.target.id==='uploadPanel') closeUpload(); }
+  function closeUploadOutside(e){if(e.target.id==='uploadPanel')closeUpload();}
 
-  function previewThumb(input) {
-    const file = input.files[0]; if (!file) return;
-    const r = new FileReader();
-    r.onload = e => { thumbBase64=e.target.result; document.getElementById('dropText').textContent='✓ '+file.name; };
-    r.readAsDataURL(file);
-  }
-  function dragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
-  function dragLeave() { document.getElementById('dropZone').classList.remove('dragover'); }
-  function dropFile(e) {
-    e.preventDefault(); dragLeave();
-    const file=e.dataTransfer.files[0];
-    if (!file||!file.type.startsWith('image/')) return;
+  function previewThumb(input){
+    const file=input.files[0];if(!file)return;
     const r=new FileReader();
-    r.onload=ev=>{ thumbBase64=ev.target.result; document.getElementById('dropText').textContent='✓ '+file.name; };
+    r.onload=e=>{thumbBase64=e.target.result;document.getElementById('dropText').textContent='✓ '+file.name;};
+    r.readAsDataURL(file);
+  }
+  function dragOver(e){e.preventDefault();document.getElementById('dropZone').classList.add('dragover');}
+  function dragLeave(){document.getElementById('dropZone').classList.remove('dragover');}
+  function dropFile(e){
+    e.preventDefault();dragLeave();
+    const file=e.dataTransfer.files[0];
+    if(!file||!file.type.startsWith('image/'))return;
+    const r=new FileReader();
+    r.onload=ev=>{thumbBase64=ev.target.result;document.getElementById('dropText').textContent='✓ '+file.name;};
     r.readAsDataURL(file);
   }
 
-  function addDesign() {
+  function saveDesign(){
     const name=document.getElementById('inp-name').value.trim();
     const price=document.getElementById('inp-price').value.trim();
-    if (!name) { alert('Design name দিন।'); return; }
-    if (!price) { alert('Price দিন।'); return; }
-    designs.unshift({
-      id: Date.now(), name, price,
-      category: document.getElementById('inp-cat').value,
-      desc: document.getElementById('inp-desc').value.trim(),
-      thumb: thumbBase64,
-      hasAI: document.getElementById('chk-ai').checked,
-      hasDXF: document.getElementById('chk-dxf').checked,
-      hasDWG: document.getElementById('chk-dwg').checked,
-      date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
-    });
-    save(); render(); closeUpload();
+    if(!name){alert('Design name দিন।');return;}
+    if(!price){alert('Price দিন।');return;}
+    if(currentEditId){
+      const idx=designs.findIndex(x=>x.id===currentEditId);
+      if(idx>-1){
+        designs[idx]={...designs[idx],name,price,category:document.getElementById('inp-cat').value,desc:document.getElementById('inp-desc').value.trim(),thumb:thumbBase64||designs[idx].thumb,hasAI:document.getElementById('chk-ai').checked,hasDXF:document.getElementById('chk-dxf').checked,hasDWG:document.getElementById('chk-dwg').checked};
+      }
+    } else {
+      designs.unshift({id:Date.now(),name,price,category:document.getElementById('inp-cat').value,desc:document.getElementById('inp-desc').value.trim(),thumb:thumbBase64,hasAI:document.getElementById('chk-ai').checked,hasDXF:document.getElementById('chk-dxf').checked,hasDWG:document.getElementById('chk-dwg').checked,date:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})});
+    }
+    save();render();closeUpload();
   }
 
-  save(); render();
+  save();render();
 </script>
 </body>
 </html>
